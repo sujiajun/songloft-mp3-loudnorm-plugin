@@ -1,24 +1,24 @@
 #!/bin/bash
 set -e
 
-# 进入 dist 目录
+# 1. 计算 dist/index.js 的 SHA256（entryHash）
+ENTRY_HASH=$(sha256sum dist/index.js | cut -d' ' -f1)
+
+# 2. 先打包 dist 目录（不含 plugin.json），计算 zipHash
 cd dist
-
-# 计算 index.js 的 SHA256 作为 entryHash
-ENTRY_HASH=$(sha256sum index.js | cut -d' ' -f1)
-
-# 先打包一个临时 zip（不含 plugin.json）
 zip -q -r ../temp.zip *
 cd ..
 ZIP_HASH=$(sha256sum temp.zip | cut -d' ' -f1)
 rm temp.zip
 
-# 用 jq 更新 plugin.json（添加 entryHash 和 zipHash）
+# 3. 更新 plugin.json（写入两个 hash）
 sudo apt-get update -qq && sudo apt-get install -y jq -qq
 jq --arg entry "$ENTRY_HASH" --arg zip "$ZIP_HASH" \
    '.entryHash = $entry | .zipHash = $zip' \
    plugin.json > plugin.tmp.json
 mv plugin.tmp.json plugin.json
 
-# 最终打包（包含 plugin.json 和 dist 文件夹）
+# 4. 最终打包（包含 plugin.json 和 dist 文件夹）
 zip -q -r loudness.jsplugin.zip plugin.json dist
+
+echo "✅ 构建完成：loudness.jsplugin.zip"
