@@ -15,7 +15,14 @@ jobs:
           node-version: 18
       - run: npm install
       - run: npm run build
+      - name: 打包完整插件
+        run: |
+          # 把 plugin.json 复制到 dist 目录
+          cp plugin.json dist/
+          # 进入 dist 目录打包所有文件
+          cd dist
+          zip -q -r ../songloft-loudness-normalizer-1.0.0.jsplugin.zip *
       - name: 发布 Release
         uses: softprops/action-gh-release@v1
         with:
-          files: dist/*.jsplugin.zip
+          files: songloft-loudness-normalizer-1.0.0.jsplugin.zip
