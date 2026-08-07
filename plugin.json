@@ -1,11 +1,9 @@
 {
   "name": "响度归一化",
   "version": "1.0.0",
-  "description": "批量调整本地 MP3 文件的响度至统一目标值 (基于 EBU R128 标准)",
+  "description": "批量调整本地 MP3 文件的响度至统一目标值",
+  "entryPath": "loudness",
+  "main": "dist/index.js",
   "permissions": ["songs.read", "songs.write", "command"],
-  "entry": "dist/index.js",
-  "ui": {
-    "entry": "dist/index.html",
-    "name": "响度归一化"
-  }
+  "renderEngine": "webview"
 }
