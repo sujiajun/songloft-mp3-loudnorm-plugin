@@ -1,4 +1,4 @@
-name: 自动打包插件
+name: 自动构建并发布插件
 on:
   push:
     tags:
@@ -15,31 +15,7 @@ jobs:
           node-version: 18
       - run: npm install
       - run: npm run build
-      
-      - name: 生成并写入 Hash
-        run: |
-          # 计算 index.js 的 SHA256
-          ENTRY_HASH=$(sha256sum dist/index.js | cut -d' ' -f1)
-          # 先打包一次（不含 plugin.json）
-          cd dist
-          zip -q -r ../temp.zip *
-          cd ..
-          # 计算 zip 的 SHA256
-          ZIP_HASH=$(sha256sum temp.zip | cut -d' ' -f1)
-          rm temp.zip
-          
-          # 更新 plugin.json（使用 jq 写入哈希）
-          sudo apt-get install -y jq
-          jq --arg entry "$ENTRY_HASH" --arg zip "$ZIP_HASH" \
-            '.entryHash = $entry | .zipHash = $zip' \
-            plugin.json > plugin.tmp.json
-          mv plugin.tmp.json plugin.json
-      
-      - name: 打包最终插件
-        run: |
-          zip -q -r songloft-loudness-normalizer-1.0.0.jsplugin.zip plugin.json dist/
-      
-      - name: 发布 Release
+      - name: 上传 Release
         uses: softprops/action-gh-release@v1
         with:
-          files: songloft-loudness-normalizer-1.0.0.jsplugin.zip
+          files: dist/*.jsplugin.zip
