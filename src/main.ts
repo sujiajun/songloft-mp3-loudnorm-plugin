@@ -1,4 +1,3 @@
-import { createPlugin, jsonResponse } from '@songloft/plugin-sdk';
 import { exec } from 'child_process';
 import { promisify } from 'util';
 import fs from 'fs/promises';
@@ -6,22 +5,26 @@ import path from 'path';
 
 const execAsync = promisify(exec);
 
-export default createPlugin({
+export default {
   async init({ router, db }) {
+    // 获取所有本地 MP3 歌曲
     router.get('/songs', async () => {
       const songs = await db.songs.find({
         where: { type: 'local', file_path: { endsWith: '.mp3' } }
       });
-      return jsonResponse(songs);
+      return new Response(JSON.stringify(songs), {
+        headers: { 'Content-Type': 'application/json' }
+      });
     });
 
+    // 批量响度归一化
     router.post('/normalize', async (req) => {
       const { songIds, targetLoudness = -16 } = req.body;
       const allSongs = await db.songs.find({
         where: { type: 'local', file_path: { endsWith: '.mp3' } }
       });
       const targetSongs = allSongs.filter(s => songIds.includes(s.id));
-      
+
       const results = [];
       for (const song of targetSongs) {
         const inputPath = song.file_path;
@@ -39,7 +42,9 @@ export default createPlugin({
           results.push({ id: song.id, title: song.title, success: false, error: e.message });
         }
       }
-      return jsonResponse({ success: true, results });
+      return new Response(JSON.stringify({ success: true, results }), {
+        headers: { 'Content-Type': 'application/json' }
+      });
     });
   }
-});
+};
