@@ -1,8 +1,1 @@
-# EBU R128目标响度：耳机-12 / 通用手机音箱-14 / 车载-16
-target_lufs: -14
-lra: 7
-tp: -2
-# copy=生成新文件不覆盖原曲 | overwrite=直接原位替换mp3
-run_mode: "copy"
-recursive: true
-output_subdir: "loud_norm_output"
+
