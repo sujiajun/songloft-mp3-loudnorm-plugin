@@ -1,13 +1,15 @@
 {
   "name": "songloft-loudness-normalizer",
   "version": "1.0.0",
-  "description": "批量调整 MP3 响度",
+  "description": "批量调整MP3响度",
+  "main": "dist/index.js",
   "scripts": {
-    "build": "esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js && cp static/* dist/ && cd dist && zip -q -r ../plugin.zip . && mv ../plugin.zip ./songloft-loudness-normalizer-1.0.0.jsplugin.zip"
+    "build": "plugin-builder build",
+    "dev": "plugin-builder dev"
   },
   "devDependencies": {
-    "@songloft/plugin-sdk": "latest",
-    "esbuild": "^0.19.0",
+    "@songloft/plugin-builder": "^1.0.0",
+    "@songloft/plugin-sdk": "^1.0.0",
     "typescript": "^5.0.0"
   }
 }
