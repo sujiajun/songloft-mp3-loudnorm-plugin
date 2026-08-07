@@ -1,0 +1,12 @@
+{
+  "name": "mp3_loud_norm",
+  "display_name": "MP3响度统一校准插件",
+  "version": "1.0.0",
+  "author": "sujiajun",
+  "description": "基于FFmpeg实现MP3批量EBU R128响度标准化，可自定义LUFS数值，无损音轨增益调节，适配SongLoft曲库",
+  "main": "__init__.py",
+  "requirements": [
+    "pyyaml>=6.0"
+  ],
+  "config": "config.yaml"
+}
