@@ -19,4 +19,4 @@ jobs:
       - name: 上传 Release
         uses: softprops/action-gh-release@v1
         with:
-          files: dist/*.jsplugin.zip
+          files: loudness.jsplugin.zip
