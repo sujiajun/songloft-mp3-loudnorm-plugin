@@ -1,4 +1,6 @@
-import { songloft, jsonResponse } from '@songloft/plugin-sdk';
+import * as sdk from '@songloft/plugin-sdk';
+const { songloft, jsonResponse } = sdk;
+
 import { exec } from 'child_process';
 import { promisify } from 'util';
 import fs from 'fs/promises';
