@@ -8,8 +8,8 @@
     "dev": "plugin-builder dev"
   },
   "devDependencies": {
-    "@songloft/plugin-builder": "^1.0.0",
-    "@songloft/plugin-sdk": "^1.0.0",
+    "@songloft/plugin-sdk": "latest",
+    "@songloft/plugin-builder": "latest",
     "typescript": "^5.0.0"
   }
 }
